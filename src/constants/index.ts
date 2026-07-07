@@ -1,9 +1,11 @@
+import { getSiteUrl } from "@/lib/site-url";
+
 export const SITE_CONFIG = {
   name: "Dream Events & Holiday",
   tagline: "Crafting Unforgettable Journeys",
   description:
     "Premium travel experiences and curated holiday packages. Discover breathtaking destinations with Dream Events & Holiday — your trusted luxury travel partner.",
-  url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+  url: getSiteUrl(),
   email: "info@dreamevents.com",
   phone: "+91 98765 43210",
   address: "123 Travel Plaza, Mumbai, Maharashtra 400001, India",

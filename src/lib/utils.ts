@@ -83,7 +83,9 @@ export function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+import { getSiteUrl } from "@/lib/site-url";
+
 export function absoluteUrl(path: string): string {
-  const base = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const base = getSiteUrl();
   return `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }

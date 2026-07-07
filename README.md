@@ -126,28 +126,104 @@ src/
 
 ## Deployment (Vercel)
 
-1. Push to GitHub
-2. Import project in [Vercel](https://vercel.com)
-3. Add all environment variables from `.env.local` (same keys as in the repo template)
-4. Deploy
+### 1. Push to GitHub
+
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/YOUR_USERNAME/dream-events-holiday.git
+git push -u origin main
+```
+
+### 2. Import in Vercel
+
+1. Go to [vercel.com/new](https://vercel.com/new)
+2. Import your GitHub repository
+3. Framework is auto-detected as **Next.js** — leave build settings as default
+4. Click **Deploy** (first deploy may fail until env vars are added)
+
+### 3. Environment variables (required)
+
+In Vercel → **Project → Settings → Environment Variables**, add these for **Production** (and Preview if you use branch deploys):
+
+| Variable | Example | Notes |
+|----------|---------|-------|
+| `NEXT_PUBLIC_APP_URL` | `https://your-app.vercel.app` | Your live site URL (no trailing slash) |
+| `AUTH_URL` | `https://your-app.vercel.app` | Same as above — required for admin login |
+| `AUTH_SECRET` | `openssl rand -base64 32` | Min 32 characters, keep secret |
+| `MONGODB_URI` | `mongodb+srv://...` | MongoDB Atlas connection string |
+| `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | `your-cloud` | From Cloudinary dashboard |
+| `CLOUDINARY_API_KEY` | | From Cloudinary dashboard |
+| `CLOUDINARY_API_SECRET` | | From Cloudinary dashboard |
+| `NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET` | | Unsigned upload preset name |
+
+Optional: `SMTP_*`, `NEXT_PUBLIC_WHATSAPP_NUMBER`, `ADMIN_*` (for seeding only).
+
+Copy the full list from `.env.example` in the project root.
+
+### 4. MongoDB Atlas (important)
+
+In MongoDB Atlas → **Network Access**, allow Vercel to connect:
+
+- Add IP **`0.0.0.0/0`** (allow from anywhere), **or**
+- Use Atlas **Vercel integration** if available
+
+Without this, the site builds but database pages will fail at runtime.
+
+### 5. Seed production database (one time)
+
+Run locally with your production `MONGODB_URI` in `.env.local`:
+
+```bash
+npm run seed:refresh
+```
+
+This creates the admin user and sample packages. Default login:
+
+- Email: `admin@dreamevents.com`
+- Password: `ChangeMe123!`
+
+Change the password after first login.
+
+### 6. Redeploy
+
+After adding env vars: **Deployments → ⋯ → Redeploy** so the build picks up new values.
+
+### 7. Custom domain (optional)
+
+Vercel → **Settings → Domains** → add your domain, then update:
+
+- `NEXT_PUBLIC_APP_URL` → `https://yourdomain.com`
+- `AUTH_URL` → `https://yourdomain.com`
+
+Redeploy after changing URLs.
+
+### Build locally (optional check)
 
 ```bash
 npm run build
 ```
 
+Vercel runs the same `npm run build` command automatically.
+
 ## Environment Variables
 
-See `.env.local` in the project root for the complete list of variables.
+See `.env.example` for the full template (safe to commit — no secrets).
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `MONGODB_URI` | Yes | MongoDB Atlas connection string |
+| `NEXT_PUBLIC_APP_URL` | Yes | Public site URL (localhost or Vercel/custom domain) |
+| `AUTH_URL` | Yes | Same as app URL — NextAuth callback base |
 | `AUTH_SECRET` | Yes | NextAuth secret (min 32 chars) |
+| `MONGODB_URI` | Yes | MongoDB Atlas connection string |
 | `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | Yes | Cloudinary cloud name |
 | `CLOUDINARY_API_KEY` | Yes | Cloudinary API key |
 | `CLOUDINARY_API_SECRET` | Yes | Cloudinary API secret |
+| `NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET` | Yes | Cloudinary upload preset |
 | `SMTP_*` | No | Email configuration |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | No | WhatsApp contact number |
+| `ADMIN_*` | No | Only for `npm run seed` |
 
 ## Scripts
 

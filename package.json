@@ -2,6 +2,9 @@
   "name": "dream-events-holiday",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=18.18.0"
+  },
   "scripts": {
     "dev": "node node_modules/next/dist/bin/next dev --turbopack",
     "build": "node node_modules/next/dist/bin/next build",
