@@ -93,7 +93,7 @@ export function SearchPackages({ destinations }: SearchPackagesProps) {
         </div>
 
         <div className="p-2 md:p-0 md:pl-2">
-          <Button type="submit" size="lg" variant="accent" className="h-full w-full rounded-xl btn-glow md:rounded-l-none md:rounded-r-xl">
+          <Button type="submit" size="lg" className="h-full w-full rounded-xl bg-white text-black hover:bg-white/90 btn-glow-light md:rounded-l-none md:rounded-r-xl">
             <Compass className="h-4 w-4" aria-hidden="true" />
             Search Now
           </Button>

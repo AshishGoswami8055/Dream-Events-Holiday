@@ -40,8 +40,8 @@ export function PageBanner({
           className="object-cover scale-105 brightness-[0.85]"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/80 via-[#0a1628]/60 to-[#0a1628]/90" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
       </div>
 
       <div
@@ -51,7 +51,7 @@ export function PageBanner({
         )}
       >
         {subtitle && (
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-accent">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
             {subtitle}
           </p>
         )}

@@ -1,10 +1,10 @@
 import { getSiteUrl } from "@/lib/site-url";
 
 export const SITE_CONFIG = {
-  name: "Dream Events & Holiday",
-  tagline: "Crafting Unforgettable Journeys",
+  name: "Dream Event & Holidays",
+  tagline: "We Care Your Memories & Comfort",
   description:
-    "Premium travel experiences and curated holiday packages. Discover breathtaking destinations with Dream Events & Holiday — your trusted luxury travel partner.",
+    "Premium travel experiences and curated holiday packages. Dream Event & Holidays crafts unforgettable journeys with care, comfort, and attention to every detail.",
   url: getSiteUrl(),
   email: "info@dreamevents.com",
   phone: "+91 98765 43210",

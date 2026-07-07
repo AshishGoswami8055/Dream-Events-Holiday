@@ -33,7 +33,7 @@ export function TestimonialsSection({ limit, showHeading = true }: TestimonialsS
                 <Quote className="absolute right-4 top-4 h-8 w-8 text-primary/10" aria-hidden="true" />
                 <div className="mb-4 flex gap-0.5">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-accent text-accent" aria-hidden="true" />
+                    <Star key={i} className="h-4 w-4 fill-black text-black" aria-hidden="true" />
                   ))}
                 </div>
                 <p className="mb-6 text-sm text-muted-foreground leading-relaxed">

@@ -34,7 +34,7 @@ export function Newsletter() {
     <section className="section-padding" aria-labelledby="newsletter-heading">
       <div className="container-custom">
         <FadeIn>
-          <div className="relative overflow-hidden rounded-3xl bg-[#0a1628] px-8 py-16 text-center md:px-16">
+          <div className="relative overflow-hidden rounded-3xl bg-black px-8 py-16 text-center md:px-16">
             <div className="absolute inset-0">
               <Image
                 src={TRAVEL_IMAGES.packagesBanner.url}

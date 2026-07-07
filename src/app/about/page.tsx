@@ -78,7 +78,7 @@ export default function AboutPage() {
             {values.map((value) => (
               <StaggerItem key={value.title}>
                 <div className="card-premium h-full p-8 text-center">
-                  <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/15 text-accent">
+                  <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-secondary text-foreground">
                     <value.icon className="h-7 w-7" aria-hidden="true" />
                   </div>
                   <h3 className="mb-2 font-semibold">{value.title}</h3>
@@ -90,14 +90,14 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section-padding bg-[#0a1628] text-white">
+      <section className="section-padding bg-black text-white">
         <div className="container-custom">
           <FadeIn>
             <SectionHeading subtitle="By The Numbers" title="Our Impact" />
             <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
               {TRAVEL_STATS.map((stat) => (
                 <div key={stat.label} className="text-center">
-                  <p className="text-4xl font-bold text-accent md:text-5xl">{stat.value}</p>
+                  <p className="text-4xl font-bold text-white md:text-5xl">{stat.value}</p>
                   <p className="mt-2 text-white/70">{stat.label}</p>
                 </div>
               ))}

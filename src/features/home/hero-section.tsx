@@ -27,7 +27,7 @@ export function HeroSection({ destinations }: HeroSectionProps) {
           sizes="100vw"
         />
         <div className="cinematic-overlay" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/90 via-[#0a1628]/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
       </div>
 
       <div className="container-custom relative z-10 pt-32 pb-24">
@@ -40,7 +40,7 @@ export function HeroSection({ destinations }: HeroSectionProps) {
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-md">
               <div className="flex">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-3.5 w-3.5 fill-accent text-accent" aria-hidden="true" />
+                  <Star key={i} className="h-3.5 w-3.5 fill-white text-white" aria-hidden="true" />
                 ))}
               </div>
               <span className="text-sm text-white/90">Trusted by 10,000+ travelers worldwide</span>
@@ -56,7 +56,7 @@ export function HeroSection({ destinations }: HeroSectionProps) {
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <Button asChild size="xl" variant="accent" className="btn-glow rounded-full px-8">
+              <Button asChild size="xl" variant="accent" className="btn-glow rounded-full px-8 bg-white text-black hover:bg-white/90">
                 <Link href="/packages">
                   Explore Packages
                   <ArrowRight className="h-5 w-5" aria-hidden="true" />

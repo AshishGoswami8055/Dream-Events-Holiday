@@ -93,8 +93,8 @@ export default async function PackageDetailPage({ params }: PackageDetailPagePro
             className="object-cover scale-105 brightness-[0.85]"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/80 via-[#0a1628]/50 to-[#0a1628]/90" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/90" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
           <div className="container-custom relative z-10 w-full pb-12 pt-28">
             <Link href="/packages" className="mb-4 inline-flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors">
               <ArrowLeft className="h-4 w-4" aria-hidden="true" />

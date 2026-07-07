@@ -17,7 +17,7 @@ export function WhyChooseUs() {
         <FadeIn>
           <SectionHeading
             subtitle="Why Us"
-            title="Why Choose Dream Events & Holiday"
+            title="Why Choose Dream Event & Holidays"
             description="We go beyond booking trips — we craft journeys that transform the way you see the world."
           />
         </FadeIn>

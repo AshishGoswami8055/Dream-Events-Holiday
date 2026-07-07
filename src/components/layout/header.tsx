@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, Plane } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/shared/logo";
 import { NAV_LINKS, SITE_CONFIG } from "@/constants";
 import { cn } from "@/lib/utils";
 
@@ -39,24 +40,11 @@ export function Header() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-        isScrolled ? "glass-nav py-3 shadow-md" : "bg-transparent py-5"
+        isScrolled ? "glass-nav py-3 shadow-md" : "bg-transparent py-4"
       )}
     >
       <div className="container-custom flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5 group" aria-label={SITE_CONFIG.name}>
-          <div className={cn(
-            "flex h-10 w-10 items-center justify-center rounded-xl transition-all group-hover:scale-105",
-            isTransparent ? "bg-accent text-accent-foreground" : "bg-primary text-primary-foreground"
-          )}>
-            <Plane className="h-5 w-5" aria-hidden="true" />
-          </div>
-          <div className="hidden sm:block">
-            <p className={cn("text-lg font-bold leading-tight", isTransparent ? "text-white" : "text-foreground")}>
-              Dream Events
-            </p>
-            <p className={cn("text-xs", isTransparent ? "text-white/70" : "text-muted-foreground")}>& Holiday</p>
-          </div>
-        </Link>
+        <Logo href="/" height={isScrolled ? 44 : 48} priority className="rounded-lg" />
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Main navigation">
           {NAV_LINKS.map((link) => (
@@ -91,14 +79,22 @@ export function Header() {
             <Phone className="h-4 w-4" aria-hidden="true" />
             <span className="hidden xl:inline">{SITE_CONFIG.phone}</span>
           </a>
-          <Button asChild size="sm" variant="accent" className="rounded-full btn-glow">
+          <Button
+            asChild
+            size="sm"
+            className={cn(
+              "rounded-full",
+              isTransparent ? "bg-white text-black hover:bg-white/90 btn-glow-light" : "btn-glow"
+            )}
+            variant={isTransparent ? "secondary" : "accent"}
+          >
             <Link href="/packages">Book Now</Link>
           </Button>
         </div>
 
         <button
           className={cn(
-            "rounded-lg p-2 lg:hidden focus:outline-none focus:ring-2 focus:ring-accent",
+            "rounded-lg p-2 lg:hidden focus:outline-none focus:ring-2 focus:ring-primary",
             isTransparent ? "text-white hover:bg-white/10" : "hover:bg-secondary"
           )}
           onClick={() => setIsOpen(!isOpen)}
@@ -130,7 +126,7 @@ export function Header() {
                   {link.label}
                 </Link>
               ))}
-              <Button asChild className="mt-2 rounded-full" variant="accent">
+              <Button asChild className="mt-2 rounded-full btn-glow" variant="accent">
                 <Link href="/packages">Book Now</Link>
               </Button>
             </nav>

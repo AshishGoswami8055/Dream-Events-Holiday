@@ -38,7 +38,7 @@ function AnimatedCounter({ value, label }: { value: string; label: string }) {
 
   return (
     <div ref={ref} className="text-center">
-      <p className="text-4xl font-bold text-accent md:text-5xl">{displayValue}</p>
+      <p className="text-4xl font-bold text-white md:text-5xl">{displayValue}</p>
       <p className="mt-2 text-sm text-white/70 md:text-base">{label}</p>
     </div>
   );
@@ -47,9 +47,9 @@ function AnimatedCounter({ value, label }: { value: string; label: string }) {
 export function TravelStatistics() {
   return (
     <section className="relative overflow-hidden py-24" aria-label="Travel statistics">
-      <div className="absolute inset-0 bg-[#0a1628]" />
+      <div className="absolute inset-0 bg-black" />
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute -right-20 -top-20 h-80 w-80 rounded-full bg-accent blur-3xl" />
+        <div className="absolute -right-20 -top-20 h-80 w-80 rounded-full bg-white/5 blur-3xl" />
         <div className="absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-white blur-3xl" />
       </div>
 

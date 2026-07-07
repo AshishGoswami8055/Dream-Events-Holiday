@@ -74,7 +74,7 @@ export function ContactForm() {
 }
 
 export function ContactInfo() {
-  const linkClass = "font-medium text-white/90 hover:text-accent transition-colors";
+  const linkClass = "font-medium text-white/90 hover:text-white transition-colors";
   const labelClass = "text-sm font-medium text-white/50";
 
   return (
@@ -86,7 +86,7 @@ export function ContactInfo() {
         { icon: Clock, label: "Hours", value: "Mon - Sat: 9:00 AM - 7:00 PM" },
       ].map(({ icon: Icon, label, value, href }) => (
         <div key={label} className="flex items-start gap-4">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/20 text-accent">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-white">
             <Icon className="h-5 w-5" aria-hidden="true" />
           </div>
           <div>

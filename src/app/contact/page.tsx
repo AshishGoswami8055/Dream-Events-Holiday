@@ -37,7 +37,7 @@ export default function ContactPage() {
           </FadeIn>
 
           <FadeIn className="lg:col-span-2">
-            <Card className="card-premium h-full border-0 bg-[#0a1628] text-white">
+            <Card className="card-premium h-full border-0 bg-black text-white">
               <CardHeader>
                 <CardTitle className="text-white">Contact Information</CardTitle>
               </CardHeader>

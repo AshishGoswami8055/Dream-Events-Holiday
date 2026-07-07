@@ -1,5 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { SITE_CONFIG } from "@/constants";
+import { getSiteUrl } from "@/lib/site-url";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -48,7 +50,7 @@ export function sanitizeInput(input: string): string {
 }
 
 export function generateMetaTitle(title: string): string {
-  return `${title} | Dream Events & Holiday`;
+  return `${title} | ${SITE_CONFIG.name}`;
 }
 
 export function getCloudinaryThumbnail(url: string, width = 400, height = 300): string {
@@ -83,7 +85,6 @@ export function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-import { getSiteUrl } from "@/lib/site-url";
 
 export function absoluteUrl(path: string): string {
   const base = getSiteUrl();
