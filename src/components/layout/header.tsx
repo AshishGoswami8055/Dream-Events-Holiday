@@ -44,7 +44,12 @@ export function Header() {
       )}
     >
       <div className="container-custom flex items-center justify-between">
-        <Logo href="/" height={isScrolled ? 52 : 58} priority className="rounded-md" />
+        <Logo
+          href="/"
+          variant={isTransparent ? "dark" : "light"}
+          height={isScrolled ? 46 : 58}
+          priority
+        />
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Main navigation">
           {NAV_LINKS.map((link) => (

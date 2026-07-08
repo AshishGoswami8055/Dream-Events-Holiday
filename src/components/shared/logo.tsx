@@ -8,20 +8,41 @@ interface LogoProps {
   height?: number;
   href?: string | null;
   priority?: boolean;
+  /** "dark" = white on black (hero). "light" = black on white glass (scrolled header). */
+  variant?: "dark" | "light";
 }
 
-export function Logo({ className, height = 56, href = "/", priority = false }: LogoProps) {
+export function Logo({
+  className,
+  height = 56,
+  href = "/",
+  priority = false,
+  variant = "dark",
+}: LogoProps) {
+  const isLight = variant === "light";
+
   const image = (
     <Image
       src="/logo.png"
       alt={SITE_CONFIG.name}
       width={Math.round(height * 0.72)}
       height={height}
-      className="h-auto w-auto object-contain"
+      className={cn(
+        "h-auto w-auto object-contain transition-all duration-300",
+        isLight && "invert"
+      )}
       style={{ maxHeight: height }}
       priority={priority}
       unoptimized
     />
+  );
+
+  const content = isLight ? (
+    <span className="inline-flex items-center rounded-lg border border-black/5 bg-white/75 px-2.5 py-1.5 shadow-sm backdrop-blur-md">
+      {image}
+    </span>
+  ) : (
+    image
   );
 
   if (href) {
@@ -31,10 +52,10 @@ export function Logo({ className, height = 56, href = "/", priority = false }: L
         className={cn("inline-flex shrink-0 transition-opacity hover:opacity-90", className)}
         aria-label={SITE_CONFIG.name}
       >
-        {image}
+        {content}
       </Link>
     );
   }
 
-  return <div className={cn("inline-flex shrink-0", className)}>{image}</div>;
+  return <div className={cn("inline-flex shrink-0", className)}>{content}</div>;
 }
