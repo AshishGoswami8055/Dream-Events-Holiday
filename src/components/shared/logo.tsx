@@ -10,16 +10,17 @@ interface LogoProps {
   priority?: boolean;
 }
 
-export function Logo({ className, height = 52, href = "/", priority = false }: LogoProps) {
+export function Logo({ className, height = 56, href = "/", priority = false }: LogoProps) {
   const image = (
     <Image
       src="/logo.png"
       alt={SITE_CONFIG.name}
-      width={Math.round(height * 1.15)}
+      width={Math.round(height * 0.72)}
       height={height}
       className="h-auto w-auto object-contain"
       style={{ maxHeight: height }}
       priority={priority}
+      unoptimized
     />
   );
 

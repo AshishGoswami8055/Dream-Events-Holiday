@@ -46,7 +46,7 @@ export default function AdminLoginPage() {
       <Card className="relative w-full max-w-md border border-white/10 bg-white shadow-2xl">
         <CardHeader className="text-center pb-2">
           <div className="mx-auto mb-4 flex justify-center">
-            <Logo href={null} height={72} />
+            <Logo href={null} height={80} />
           </div>
           <CardTitle className="text-2xl">Admin Login</CardTitle>
           <CardDescription>{SITE_CONFIG.name} — {SITE_CONFIG.tagline}</CardDescription>

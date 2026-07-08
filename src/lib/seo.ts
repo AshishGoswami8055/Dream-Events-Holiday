@@ -20,12 +20,17 @@ export function generateSEO({
   type = "website",
 }: SEOProps): Metadata {
   const url = absoluteUrl(path);
-  const ogImage = image || absoluteUrl("/og-image.jpg");
+  const ogImage = image || absoluteUrl("/logo.png");
 
   return {
     title,
     description,
     metadataBase: new URL(SITE_CONFIG.url),
+    icons: {
+      icon: "/logo.png",
+      shortcut: "/logo.png",
+      apple: "/logo.png",
+    },
     alternates: {
       canonical: url,
     },
