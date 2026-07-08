@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { SITE_CONFIG } from "@/constants";
 import { cn } from "@/lib/utils";
@@ -19,25 +18,20 @@ export function Logo({
   priority = false,
   variant = "dark",
 }: LogoProps) {
-  const isLight = variant === "light";
-
-  const image = (
-    <Image
-      src="/logo-transparent.png"
+  const graphic = (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/logo.svg"
       alt={SITE_CONFIG.name}
-      width={Math.round(height * 0.72)}
       height={height}
+      fetchPriority={priority ? "high" : undefined}
       className={cn(
         "h-auto w-auto object-contain transition-all duration-300",
-        isLight && "invert"
+        variant === "light" && "invert"
       )}
       style={{ maxHeight: height }}
-      priority={priority}
-      unoptimized
     />
   );
-
-  const content = image;
 
   if (href) {
     return (
@@ -46,10 +40,10 @@ export function Logo({
         className={cn("inline-flex shrink-0 transition-opacity hover:opacity-90", className)}
         aria-label={SITE_CONFIG.name}
       >
-        {content}
+        {graphic}
       </Link>
     );
   }
 
-  return <div className={cn("inline-flex shrink-0", className)}>{content}</div>;
+  return <div className={cn("inline-flex shrink-0", className)}>{graphic}</div>;
 }
