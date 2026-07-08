@@ -18,17 +18,16 @@ export function Logo({
   priority = false,
   variant = "dark",
 }: LogoProps) {
+  const isLight = variant === "light";
+
   const graphic = (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/logo.svg"
+      src={isLight ? "/logo-black.svg" : "/logo.svg"}
       alt={SITE_CONFIG.name}
       height={height}
       fetchPriority={priority ? "high" : undefined}
-      className={cn(
-        "h-auto w-auto object-contain transition-all duration-300",
-        variant === "light" && "invert"
-      )}
+      className="h-auto w-auto object-contain transition-all duration-300"
       style={{ maxHeight: height }}
     />
   );
