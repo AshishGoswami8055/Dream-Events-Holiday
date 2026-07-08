@@ -8,7 +8,7 @@ interface LogoProps {
   height?: number;
   href?: string | null;
   priority?: boolean;
-  /** "dark" = white on black (hero). "light" = black on white glass (scrolled header). */
+  /** "dark" = white logo (hero/dark surfaces). "light" = black logo (scrolled/light surfaces). */
   variant?: "dark" | "light";
 }
 
@@ -23,7 +23,7 @@ export function Logo({
 
   const image = (
     <Image
-      src="/logo.png"
+      src="/logo-transparent.png"
       alt={SITE_CONFIG.name}
       width={Math.round(height * 0.72)}
       height={height}
@@ -37,13 +37,7 @@ export function Logo({
     />
   );
 
-  const content = isLight ? (
-    <span className="inline-flex items-center rounded-lg bg-white px-2 py-1">
-      {image}
-    </span>
-  ) : (
-    image
-  );
+  const content = image;
 
   if (href) {
     return (
