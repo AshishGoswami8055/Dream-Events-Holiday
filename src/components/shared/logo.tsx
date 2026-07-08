@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { SITE_CONFIG } from "@/constants";
 import { cn } from "@/lib/utils";
@@ -21,14 +22,15 @@ export function Logo({
   const isLight = variant === "light";
 
   const graphic = (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={isLight ? "/logo-black.svg" : "/logo.svg"}
+    <Image
+      src={isLight ? "/logo-black.png" : "/logo-transparent.png"}
       alt={SITE_CONFIG.name}
+      width={Math.round(height * 0.72)}
       height={height}
-      fetchPriority={priority ? "high" : undefined}
       className="h-auto w-auto object-contain transition-all duration-300"
       style={{ maxHeight: height }}
+      priority={priority}
+      unoptimized
     />
   );
 
