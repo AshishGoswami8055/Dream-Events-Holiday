@@ -38,7 +38,7 @@ export function Logo({
   );
 
   const content = isLight ? (
-    <span className="inline-flex items-center rounded-lg border border-black/5 bg-white/75 px-2.5 py-1.5 shadow-sm backdrop-blur-md">
+    <span className="inline-flex items-center rounded-lg bg-white px-2 py-1">
       {image}
     </span>
   ) : (
