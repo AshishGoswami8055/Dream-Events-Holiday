@@ -9,7 +9,7 @@ export default async function NewPackagePage() {
     <div className="mx-auto max-w-5xl">
       <AdminPageHeader
         title="Add New Package"
-        description="Fill in the details below to create a new travel package."
+        description="Just the essentials — title, destination, price, photo, and description."
         backHref="/admin/packages"
         backLabel="All Packages"
       />

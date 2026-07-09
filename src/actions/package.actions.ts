@@ -136,13 +136,15 @@ export async function createPackage(data: PackageInput): Promise<ActionResponse>
 
     await connectDB();
     const slug = parsed.data.slug || slugify(parsed.data.title);
+    const destination = await Destination.findById(parsed.data.destination).select("name").lean();
+    const location = parsed.data.location || destination?.name || parsed.data.title;
 
     const existing = await Package.findOne({ slug });
     if (existing) {
       return { success: false, message: "A package with this slug already exists" };
     }
 
-    const pkg = await Package.create({ ...parsed.data, slug });
+    const pkg = await Package.create({ ...parsed.data, slug, location });
     revalidatePath("/packages");
     revalidatePath("/");
     revalidatePath("/admin/packages");
@@ -163,13 +165,15 @@ export async function updatePackage(id: string, data: PackageInput): Promise<Act
 
     await connectDB();
     const slug = parsed.data.slug || slugify(parsed.data.title);
+    const destination = await Destination.findById(parsed.data.destination).select("name").lean();
+    const location = parsed.data.location || destination?.name || parsed.data.title;
 
     const existing = await Package.findOne({ slug, _id: { $ne: id } });
     if (existing) {
       return { success: false, message: "A package with this slug already exists" };
     }
 
-    const pkg = await Package.findByIdAndUpdate(id, { ...parsed.data, slug }, { new: true });
+    const pkg = await Package.findByIdAndUpdate(id, { ...parsed.data, slug, location }, { new: true });
     if (!pkg) return { success: false, message: "Package not found" };
 
     revalidatePath("/packages");

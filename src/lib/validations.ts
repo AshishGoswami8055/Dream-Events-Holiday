@@ -15,8 +15,8 @@ export const cloudinaryImageSchema = z.object({
 
 export const itineraryDaySchema = z.object({
   day: z.coerce.number().min(1),
-  title: z.string().min(1, "Title is required"),
-  description: z.string().min(1, "Description is required"),
+  title: z.string(),
+  description: z.string(),
 });
 
 export const faqSchema = z.object({
@@ -27,7 +27,7 @@ export const faqSchema = z.object({
 export const packageSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters").max(200),
   slug: z.string().min(3).max(200).optional(),
-  location: z.string().min(2, "Location is required"),
+  location: z.string().min(2, "Location is required").optional(),
   destination: z.string().min(1, "Destination is required"),
   price: z.coerce.number().min(0, "Price must be positive"),
   duration: z.coerce.number().min(1, "Duration must be at least 1 day"),
@@ -43,7 +43,14 @@ export const packageSchema = z.object({
   status: z.enum(PACKAGE_STATUSES as unknown as [string, ...string[]]).default("draft"),
   faqs: z.array(faqSchema).default([]),
   mapEmbedUrl: z.string().url().optional().or(z.literal("")),
-});
+}).transform((data) => ({
+  ...data,
+  location: data.location || "India",
+  itinerary: data.itinerary.filter((day) => day.title.trim() && day.description.trim()),
+  highlights: data.highlights.filter(Boolean),
+  includes: data.includes.filter(Boolean),
+  excludes: data.excludes.filter(Boolean),
+}));
 
 export const destinationSchema = z.object({
   name: z.string().min(2, "Name is required"),
