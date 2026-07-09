@@ -11,7 +11,7 @@ export function Footer() {
       <div className="container-custom section-padding pb-8">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <Logo href="/" height={72} className="mb-4" />
+            <Logo href="/" height={84} className="mb-4" />
             <p className="mb-2 text-sm font-medium tracking-wide text-white/90">
               {SITE_CONFIG.tagline}
             </p>

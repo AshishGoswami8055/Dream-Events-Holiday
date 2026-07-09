@@ -46,7 +46,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
         )}
       >
         <div className="flex items-center justify-between border-b border-white/10 px-5 py-5">
-            <Logo href="/" height={48} />
+            <Logo href="/" height={56} />
           <button
             type="button"
             onClick={onClose}

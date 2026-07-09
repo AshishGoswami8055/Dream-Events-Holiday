@@ -47,7 +47,7 @@ export function Header() {
         <Logo
           href="/"
           variant={isTransparent ? "dark" : "light"}
-          height={isScrolled ? 46 : 58}
+          height={isScrolled ? 52 : 68}
           priority
         />
 

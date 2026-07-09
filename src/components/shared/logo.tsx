@@ -14,7 +14,7 @@ interface LogoProps {
 
 export function Logo({
   className,
-  height = 56,
+  height = 64,
   href = "/",
   priority = false,
   variant = "dark",
