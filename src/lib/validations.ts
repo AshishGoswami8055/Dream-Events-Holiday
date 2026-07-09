@@ -4,6 +4,10 @@ import { PACKAGE_CATEGORIES, PACKAGE_STATUSES, INQUIRY_STATUSES } from "@/consta
 export const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
+  remember: z
+    .union([z.boolean(), z.literal("true"), z.literal("false")])
+    .optional()
+    .transform((value) => value === true || value === "true"),
 });
 
 export const cloudinaryImageSchema = z.object({
