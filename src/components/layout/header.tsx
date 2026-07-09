@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useLargeScreen } from "@/hooks/use-large-screen";
 import { Menu, X, Phone } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/shared/logo";
-import { NAV_LINKS, SITE_CONFIG } from "@/constants";
+import { NAV_LINKS } from "@/constants";
+import { useSiteConfig } from "@/components/providers/site-config-provider";
 import { cn } from "@/lib/utils";
 
 /** Plain pages without a hero/banner — keep the light header at the top */
@@ -19,12 +21,22 @@ function usesTransparentHeader(pathname: string, isScrolled: boolean) {
   return !isScrolled;
 }
 
+function getHeaderLogoHeight(isLargeScreen: boolean, isScrolled: boolean) {
+  if (isLargeScreen) {
+    return isScrolled ? 110 : 150;
+  }
+  return isScrolled ? 40 : 48;
+}
+
 export function Header() {
   const pathname = usePathname();
+  const siteConfig = useSiteConfig();
+  const isLargeScreen = useLargeScreen();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const isTransparent = usesTransparentHeader(pathname, isScrolled);
+  const logoHeight = getHeaderLogoHeight(isLargeScreen, isScrolled);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 40);
@@ -40,14 +52,14 @@ export function Header() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-        isScrolled ? "glass-nav py-3 shadow-md" : "bg-transparent py-5"
+        isScrolled ? "glass-nav py-2 shadow-md lg:py-3" : "bg-transparent py-3 lg:py-5"
       )}
     >
       <div className="container-custom flex items-center justify-between">
         <Logo
           href="/"
           variant={isTransparent ? "dark" : "light"}
-          height={isScrolled ? 110 : 150}
+          height={logoHeight}
           priority
         />
 
@@ -74,15 +86,15 @@ export function Header() {
 
         <div className="hidden items-center gap-3 lg:flex">
           <a
-            href={`tel:${SITE_CONFIG.phone.replace(/\s/g, "")}`}
+            href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
             className={cn(
               "flex items-center gap-2 text-sm transition-colors",
               isTransparent ? "text-white/80 hover:text-white" : "text-muted-foreground hover:text-primary"
             )}
-            aria-label={`Call us at ${SITE_CONFIG.phone}`}
+            aria-label={`Call us at ${siteConfig.phone}`}
           >
             <Phone className="h-4 w-4" aria-hidden="true" />
-            <span className="hidden xl:inline">{SITE_CONFIG.phone}</span>
+            <span className="hidden xl:inline">{siteConfig.phone}</span>
           </a>
           <Button
             asChild

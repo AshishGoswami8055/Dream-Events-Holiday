@@ -1,9 +1,15 @@
+"use client";
+
 import Link from "next/link";
 import { Phone, Mail, MapPin, Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
-import { SITE_CONFIG, NAV_LINKS } from "@/constants";
+import { NAV_LINKS } from "@/constants";
+import { useSiteConfig } from "@/components/providers/site-config-provider";
+import { useLargeScreen } from "@/hooks/use-large-screen";
 
 export function Footer() {
+  const siteConfig = useSiteConfig();
+  const isLargeScreen = useLargeScreen();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -11,19 +17,19 @@ export function Footer() {
       <div className="container-custom section-padding pb-8">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <Logo href="/" height={84} className="mb-4" />
+            <Logo href="/" height={isLargeScreen ? 72 : 52} className="mb-4" />
             <p className="mb-2 text-sm font-medium tracking-wide text-white/90">
-              {SITE_CONFIG.tagline}
+              {siteConfig.tagline}
             </p>
             <p className="mb-6 text-sm text-white/60 leading-relaxed">
-              {SITE_CONFIG.description}
+              {siteConfig.description}
             </p>
             <div className="flex gap-3">
               {[
-                { icon: Facebook, href: SITE_CONFIG.social.facebook, label: "Facebook" },
-                { icon: Instagram, href: SITE_CONFIG.social.instagram, label: "Instagram" },
-                { icon: Twitter, href: SITE_CONFIG.social.twitter, label: "Twitter" },
-                { icon: Youtube, href: SITE_CONFIG.social.youtube, label: "YouTube" },
+                { icon: Facebook, href: siteConfig.social.facebook, label: "Facebook" },
+                { icon: Instagram, href: siteConfig.social.instagram, label: "Instagram" },
+                { icon: Twitter, href: siteConfig.social.twitter, label: "Twitter" },
+                { icon: Youtube, href: siteConfig.social.youtube, label: "YouTube" },
               ].map(({ icon: Icon, href, label }) => (
                 <a
                   key={label}
@@ -82,32 +88,32 @@ export function Footer() {
             <ul className="space-y-3">
               <li>
                 <a
-                  href={`tel:${SITE_CONFIG.phone.replace(/\s/g, "")}`}
+                  href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
                   className="flex items-start gap-3 text-sm text-white/60 hover:text-white transition-colors"
                 >
                   <Phone className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-                  {SITE_CONFIG.phone}
+                  {siteConfig.phone}
                 </a>
               </li>
               <li>
                 <a
-                  href={`mailto:${SITE_CONFIG.email}`}
+                  href={`mailto:${siteConfig.email}`}
                   className="flex items-start gap-3 text-sm text-white/60 hover:text-white transition-colors"
                 >
                   <Mail className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-                  {SITE_CONFIG.email}
+                  {siteConfig.email}
                 </a>
               </li>
               <li className="flex items-start gap-3 text-sm text-white/60">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-                {SITE_CONFIG.address}
+                {siteConfig.address}
               </li>
             </ul>
           </div>
         </div>
 
         <div className="mt-12 border-t border-white/10 pt-8 text-center text-sm text-white/40">
-          <p>&copy; {currentYear} {SITE_CONFIG.name}. All rights reserved.</p>
+          <p>&copy; {currentYear} {siteConfig.name}. All rights reserved.</p>
         </div>
       </div>
     </footer>

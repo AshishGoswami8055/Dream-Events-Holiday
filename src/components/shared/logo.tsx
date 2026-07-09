@@ -27,7 +27,7 @@ export function Logo({
       alt={SITE_CONFIG.name}
       width={Math.round(height * 1.05)}
       height={height}
-      className="h-auto w-auto object-contain transition-all duration-300"
+      className="h-auto w-auto max-w-full object-contain transition-all duration-300"
       style={{ maxHeight: height, height }}
       priority={priority}
       unoptimized

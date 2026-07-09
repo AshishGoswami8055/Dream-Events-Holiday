@@ -7,7 +7,7 @@ import { ArrowRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HERO_IMAGE_URL } from "@/constants/images";
 import { SearchPackages } from "@/features/home/search-packages";
-import { SITE_CONFIG } from "@/constants";
+import { useSiteConfig } from "@/components/providers/site-config-provider";
 import type { DestinationDocument } from "@/types";
 
 interface HeroSectionProps {
@@ -15,6 +15,7 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ destinations }: HeroSectionProps) {
+  const siteConfig = useSiteConfig();
   return (
     <section className="relative min-h-[95vh] flex items-center overflow-hidden" aria-label="Hero">
       <div className="absolute inset-0">
@@ -60,7 +61,7 @@ export function HeroSection({ destinations }: HeroSectionProps) {
             </p>
 
             <p className="mb-10 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
-              {SITE_CONFIG.description} At Dream Event & Holidays, we manage every step of your
+              {siteConfig.description} At {siteConfig.name}, we manage every step of your
               trip—from your first enquiry to your safe return home—so you can travel with confidence
               and create memories that last a lifetime.
             </p>

@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { SITE_CONFIG } from "@/constants";
+import { useSiteConfig } from "@/components/providers/site-config-provider";
 
 export function ContactForm() {
   const [isPending, startTransition] = useTransition();
@@ -74,15 +74,16 @@ export function ContactForm() {
 }
 
 export function ContactInfo() {
+  const siteConfig = useSiteConfig();
   const linkClass = "font-medium text-white/90 hover:text-white transition-colors";
   const labelClass = "text-sm font-medium text-white/50";
 
   return (
     <div className="space-y-6">
       {[
-        { icon: Phone, label: "Phone", value: SITE_CONFIG.phone, href: `tel:${SITE_CONFIG.phone.replace(/\s/g, "")}` },
-        { icon: Mail, label: "Email", value: SITE_CONFIG.email, href: `mailto:${SITE_CONFIG.email}` },
-        { icon: MapPin, label: "Address", value: SITE_CONFIG.address },
+        { icon: Phone, label: "Phone", value: siteConfig.phone, href: `tel:${siteConfig.phone.replace(/\s/g, "")}` },
+        { icon: Mail, label: "Email", value: siteConfig.email, href: `mailto:${siteConfig.email}` },
+        { icon: MapPin, label: "Address", value: siteConfig.address },
         { icon: Clock, label: "Hours", value: "Mon - Sat: 9:00 AM - 7:00 PM" },
       ].map(({ icon: Icon, label, value, href }) => (
         <div key={label} className="flex items-start gap-4">

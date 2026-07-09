@@ -2,11 +2,8 @@
 
 import { cn } from "@/lib/utils";
 import { WhatsAppIcon } from "@/components/shared/whatsapp-icon";
-import {
-  buildPackageWhatsAppMessage,
-  getPackageWhatsAppUrl,
-  type PackageWhatsAppDetails,
-} from "@/lib/whatsapp";
+import { useSiteConfig } from "@/components/providers/site-config-provider";
+import { getPackageWhatsAppUrl, type PackageWhatsAppDetails } from "@/lib/whatsapp";
 
 interface PackageWhatsAppButtonProps {
   details: PackageWhatsAppDetails;
@@ -34,7 +31,8 @@ export function PackageWhatsAppButton({
   className,
   onClick,
 }: PackageWhatsAppButtonProps) {
-  const url = getPackageWhatsAppUrl(details);
+  const siteConfig = useSiteConfig();
+  const url = getPackageWhatsAppUrl(details, siteConfig);
 
   return (
     <a
@@ -51,4 +49,4 @@ export function PackageWhatsAppButton({
   );
 }
 
-export { buildPackageWhatsAppMessage, getPackageWhatsAppUrl, type PackageWhatsAppDetails };
+export type { PackageWhatsAppDetails };

@@ -104,6 +104,31 @@ export const inquiryStatusSchema = z.object({
   status: z.enum(INQUIRY_STATUSES as unknown as [string, ...string[]]),
 });
 
+export const siteSettingsSchema = z.object({
+  siteName: z.string().min(2, "Site name is required"),
+  siteUrl: z.string().url("Enter a valid website URL"),
+  tagline: z.string().min(3, "Tagline is required"),
+  description: z.string().min(10, "Description is required"),
+  email: z.string().email("Valid email required"),
+  phone: z.string().min(10, "Valid phone required"),
+  whatsapp: z.string().min(10, "WhatsApp number required (with country code, no +)"),
+  address: z.string().min(3, "Address is required"),
+  socialFacebook: z.string().url().or(z.literal("")),
+  socialInstagram: z.string().url().or(z.literal("")),
+  socialTwitter: z.string().url().or(z.literal("")),
+  socialYoutube: z.string().url().or(z.literal("")),
+  smtpHost: z.string().min(1, "SMTP host is required"),
+  smtpPort: z.coerce.number().min(1).max(65535),
+  smtpUser: z.string().optional().or(z.literal("")),
+  smtpPass: z.string().optional().or(z.literal("")),
+  smtpFrom: z.string().optional().or(z.literal("")),
+  adminNotificationEmail: z.string().email().or(z.literal("")),
+  cloudinaryCloudName: z.string().optional().or(z.literal("")),
+  cloudinaryApiKey: z.string().optional().or(z.literal("")),
+  cloudinaryApiSecret: z.string().optional().or(z.literal("")),
+  cloudinaryUploadPreset: z.string().optional().or(z.literal("")),
+});
+
 export type LoginInput = z.infer<typeof loginSchema>;
 export type PackageInput = z.infer<typeof packageSchema>;
 export type DestinationInput = z.infer<typeof destinationSchema>;
@@ -111,3 +136,4 @@ export type GalleryInput = z.infer<typeof gallerySchema>;
 export type InquiryInput = z.infer<typeof inquirySchema>;
 export type ContactInput = z.infer<typeof contactSchema>;
 export type NewsletterInput = z.infer<typeof newsletterSchema>;
+export type SiteSettingsInput = z.infer<typeof siteSettingsSchema>;

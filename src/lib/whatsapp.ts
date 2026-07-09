@@ -1,5 +1,4 @@
-import { SITE_CONFIG } from "@/constants";
-import { getSiteUrl } from "@/lib/site-url";
+import type { PublicSiteConfig } from "@/lib/site-settings";
 import { formatPrice, getWhatsAppUrl } from "@/lib/utils";
 
 export interface PackageWhatsAppDetails {
@@ -46,10 +45,13 @@ export function packageToWhatsAppDetails(pkg: {
   };
 }
 
-export function buildPackageWhatsAppMessage(details: PackageWhatsAppDetails): string {
-  const packageUrl = `${getSiteUrl()}/packages/${details.slug}`;
+export function buildPackageWhatsAppMessage(
+  details: PackageWhatsAppDetails,
+  config: Pick<PublicSiteConfig, "name" | "url">
+): string {
+  const packageUrl = `${config.url}/packages/${details.slug}`;
   const lines = [
-    `Hello ${SITE_CONFIG.name}! 👋`,
+    `Hello ${config.name}! 👋`,
     "",
     "I'm interested in the following travel package:",
     "",
@@ -90,6 +92,10 @@ export function buildPackageWhatsAppMessage(details: PackageWhatsAppDetails): st
   return lines.join("\n");
 }
 
-export function getPackageWhatsAppUrl(details: PackageWhatsAppDetails): string {
-  return getWhatsAppUrl(SITE_CONFIG.whatsapp, buildPackageWhatsAppMessage(details));
+export function getPackageWhatsAppUrl(
+  details: PackageWhatsAppDetails,
+  config: PublicSiteConfig
+): string {
+  const message = buildPackageWhatsAppMessage(details, config);
+  return getWhatsAppUrl(config.whatsapp, message);
 }

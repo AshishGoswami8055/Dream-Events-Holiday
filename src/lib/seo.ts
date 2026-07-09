@@ -55,21 +55,24 @@ export function generateSEO({
   };
 }
 
-export function generateTravelAgencyJsonLd() {
+import type { PublicSiteConfig } from "@/lib/site-settings";
+
+export function generateTravelAgencyJsonLd(config?: PublicSiteConfig) {
+  const c = config;
   return {
     "@context": "https://schema.org",
     "@type": "TravelAgency",
-    name: SITE_CONFIG.name,
-    description: SITE_CONFIG.description,
-    url: SITE_CONFIG.url,
-    telephone: SITE_CONFIG.phone,
-    email: SITE_CONFIG.email,
+    name: c?.name ?? SITE_CONFIG.name,
+    description: c?.description ?? SITE_CONFIG.description,
+    url: c?.url ?? SITE_CONFIG.url,
+    telephone: c?.phone ?? SITE_CONFIG.phone,
+    email: c?.email ?? SITE_CONFIG.email,
     address: {
       "@type": "PostalAddress",
-      streetAddress: SITE_CONFIG.address,
+      streetAddress: c?.address ?? SITE_CONFIG.address,
       addressCountry: "IN",
     },
-    sameAs: Object.values(SITE_CONFIG.social),
+    sameAs: Object.values(c?.social ?? SITE_CONFIG.social),
   };
 }
 

@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { SITE_CONFIG } from "@/constants";
+import { getSiteSettings } from "@/lib/site-settings";
 
 export type QuerySource = "package" | "contact";
 
@@ -24,38 +24,35 @@ function escapeHtml(value: string) {
     .replace(/"/g, "&quot;");
 }
 
-export function isSmtpConfigured() {
-  return Boolean(process.env.SMTP_USER && process.env.SMTP_PASS && process.env.SMTP_HOST);
+async function getMailConfig() {
+  const settings = await getSiteSettings();
+  const configured = Boolean(settings.smtpHost && settings.smtpUser && settings.smtpPass);
+  return { settings, configured };
 }
 
-function getTransporter() {
-  if (!isSmtpConfigured()) return null;
-
+function createTransporter(settings: Awaited<ReturnType<typeof getSiteSettings>>) {
   return nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT) || 587,
+    host: settings.smtpHost,
+    port: settings.smtpPort || 587,
     secure: false,
     auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
+      user: settings.smtpUser,
+      pass: settings.smtpPass,
     },
   });
 }
 
-function getAdminEmail() {
-  return process.env.ADMIN_NOTIFICATION_EMAIL || SITE_CONFIG.email;
-}
-
-function getFromAddress() {
-  return process.env.SMTP_FROM || SITE_CONFIG.email;
+export async function isSmtpConfigured() {
+  const { configured } = await getMailConfig();
+  return configured;
 }
 
 export async function sendAdminQueryNotification(data: QueryEmailData): Promise<boolean> {
-  const transporter = getTransporter();
-  if (!transporter) return false;
+  const { settings, configured } = await getMailConfig();
+  if (!configured) return false;
 
-  const adminEmail = getAdminEmail();
-  const adminUrl = `${SITE_CONFIG.url}/admin/inquiries`;
+  const adminEmail = settings.adminNotificationEmail || settings.email;
+  const adminUrl = `${settings.siteUrl.replace(/\/$/, "")}/admin/inquiries`;
   const queryLabel = data.source === "contact" ? "Contact Form Message" : "Package Inquiry";
   const subjectLine =
     data.source === "contact" && data.subject
@@ -92,12 +89,12 @@ export async function sendAdminQueryNotification(data: QueryEmailData): Promise<
           View in Admin Panel
         </a>
       </p>
-      <p style="color: #6b7280; margin-top: 24px; font-size: 12px;">${SITE_CONFIG.name} — Admin Notification</p>
+      <p style="color: #6b7280; margin-top: 24px; font-size: 12px;">${settings.siteName} — Admin Notification</p>
     </div>
   `;
 
-  await transporter.sendMail({
-    from: getFromAddress(),
+  await createTransporter(settings).sendMail({
+    from: settings.smtpFrom || settings.email,
     to: adminEmail,
     subject: subjectLine,
     html,
@@ -111,32 +108,31 @@ export async function sendCustomerAcknowledgement(data: {
   email: string;
   source: QuerySource;
 }): Promise<boolean> {
-  const transporter = getTransporter();
-  if (!transporter) return false;
+  const { settings, configured } = await getMailConfig();
+  if (!configured) return false;
 
   const isContact = data.source === "contact";
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h2 style="color: #0F4C81;">Thank You, ${escapeHtml(data.name)}!</h2>
       <p>We have received your ${isContact ? "message" : "travel inquiry"} and our team will get back to you within 24 hours.</p>
-      <p>In the meantime, feel free to explore our latest packages at <a href="${SITE_CONFIG.url}/packages">${SITE_CONFIG.url}/packages</a>.</p>
-      <p style="color: #6b7280; margin-top: 24px;">Best regards,<br/>${SITE_CONFIG.name} Team</p>
+      <p>In the meantime, feel free to explore our latest packages at <a href="${settings.siteUrl}/packages">${settings.siteUrl}/packages</a>.</p>
+      <p style="color: #6b7280; margin-top: 24px;">Best regards,<br/>${settings.siteName} Team</p>
     </div>
   `;
 
-  await transporter.sendMail({
-    from: getFromAddress(),
+  await createTransporter(settings).sendMail({
+    from: settings.smtpFrom || settings.email,
     to: data.email,
     subject: isContact
-      ? `We Received Your Message - ${SITE_CONFIG.name}`
-      : `We Received Your Inquiry - ${SITE_CONFIG.name}`,
+      ? `We Received Your Message - ${settings.siteName}`
+      : `We Received Your Inquiry - ${settings.siteName}`,
     html,
   });
 
   return true;
 }
 
-/** @deprecated Use sendAdminQueryNotification */
 export async function sendInquiryNotification(data: {
   name: string;
   email: string;
@@ -150,7 +146,6 @@ export async function sendInquiryNotification(data: {
   await sendAdminQueryNotification({ ...data, source: "package" });
 }
 
-/** @deprecated Use sendCustomerAcknowledgement */
 export async function sendInquiryConfirmation(data: {
   name: string;
   email: string;
@@ -159,21 +154,21 @@ export async function sendInquiryConfirmation(data: {
 }
 
 export async function sendNewsletterConfirmation(email: string): Promise<boolean> {
-  const transporter = getTransporter();
-  if (!transporter) return false;
+  const { settings, configured } = await getMailConfig();
+  if (!configured) return false;
 
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h2 style="color: #0F4C81;">Welcome to Our Newsletter!</h2>
       <p>Thank you for subscribing. You'll receive exclusive travel deals and destination guides.</p>
-      <p style="color: #6b7280; margin-top: 24px;">${SITE_CONFIG.name} Team</p>
+      <p style="color: #6b7280; margin-top: 24px;">${settings.siteName} Team</p>
     </div>
   `;
 
-  await transporter.sendMail({
-    from: getFromAddress(),
+  await createTransporter(settings).sendMail({
+    from: settings.smtpFrom || settings.email,
     to: email,
-    subject: `Welcome to ${SITE_CONFIG.name} Newsletter`,
+    subject: `Welcome to ${settings.siteName} Newsletter`,
     html,
   });
 

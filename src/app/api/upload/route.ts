@@ -1,12 +1,7 @@
-import { v2 as cloudinary } from "cloudinary";
 import { NextRequest, NextResponse } from "next/server";
+import { v2 as cloudinary } from "cloudinary";
 import { auth } from "@/lib/auth";
-
-cloudinary.config({
-  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+import { getSiteSettings } from "@/lib/site-settings";
 
 export async function POST(request: NextRequest) {
   const session = await auth();
@@ -15,20 +10,34 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { folder = "dream-events" } = await request.json();
+    const settings = await getSiteSettings();
+    if (!settings.cloudinaryCloudName || !settings.cloudinaryApiKey || !settings.cloudinaryApiSecret) {
+      return NextResponse.json(
+        { error: "Cloudinary is not configured. Add settings in Admin → Settings." },
+        { status: 400 }
+      );
+    }
 
+    cloudinary.config({
+      cloud_name: settings.cloudinaryCloudName,
+      api_key: settings.cloudinaryApiKey,
+      api_secret: settings.cloudinaryApiSecret,
+    });
+
+    const { folder = "dream-events" } = await request.json();
     const timestamp = Math.round(Date.now() / 1000);
     const signature = cloudinary.utils.api_sign_request(
       { timestamp, folder },
-      process.env.CLOUDINARY_API_SECRET!
+      settings.cloudinaryApiSecret
     );
 
     return NextResponse.json({
-      cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-      apiKey: process.env.CLOUDINARY_API_KEY,
+      cloudName: settings.cloudinaryCloudName,
+      apiKey: settings.cloudinaryApiKey,
       timestamp,
       signature,
       folder,
+      uploadPreset: settings.cloudinaryUploadPreset,
     });
   } catch {
     return NextResponse.json({ error: "Failed to generate signature" }, { status: 500 });

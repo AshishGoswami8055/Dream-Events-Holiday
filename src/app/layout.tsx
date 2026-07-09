@@ -4,21 +4,25 @@ import { GeistMono } from "geist/font/mono";
 import { SiteShell } from "@/components/layout/site-shell";
 import { Toaster } from "@/components/ui/toaster";
 import { generateSEO, generateTravelAgencyJsonLd } from "@/lib/seo";
-import { SITE_CONFIG } from "@/constants";
+import { getPublicSiteConfig } from "@/lib/site-settings";
 import { Providers } from "@/components/providers";
 import "./globals.css";
 
-export const metadata: Metadata = generateSEO({
-  title: `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`,
-  description: SITE_CONFIG.description,
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const config = await getPublicSiteConfig();
+  return generateSEO({
+    title: `${config.name} - ${config.tagline}`,
+    description: config.description,
+  });
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = generateTravelAgencyJsonLd();
+  const siteConfig = await getPublicSiteConfig();
+  const jsonLd = generateTravelAgencyJsonLd(siteConfig);
 
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
@@ -29,7 +33,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen font-sans antialiased">
-        <Providers>
+        <Providers siteConfig={siteConfig}>
           <SiteShell>{children}</SiteShell>
           <Toaster />
         </Providers>

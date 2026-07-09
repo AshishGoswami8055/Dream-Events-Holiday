@@ -11,6 +11,7 @@ import {
   LogOut,
   X,
   ExternalLink,
+  Settings,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/shared/logo";
@@ -23,6 +24,7 @@ const adminLinks = [
   { href: "/admin/destinations", label: "Destinations", icon: MapPin },
   { href: "/admin/gallery", label: "Gallery", icon: Image },
   { href: "/admin/inquiries", label: "Inquiries", icon: MessageSquare },
+  { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
 interface AdminSidebarProps {

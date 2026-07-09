@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { SITE_CONFIG } from "@/constants";
 import { formatPrice, getWhatsAppUrl } from "@/lib/utils";
 import { WhatsAppIcon } from "@/components/shared/whatsapp-icon";
+import { useSiteConfig } from "@/components/providers/site-config-provider";
 import { PackageWhatsAppButton, type PackageWhatsAppDetails } from "@/components/shared/package-whatsapp-button";
 
 interface WhatsAppButtonProps {
@@ -13,7 +13,8 @@ interface WhatsAppButtonProps {
 export function WhatsAppButton({
   message = "Hi! I'm interested in your travel packages.",
 }: WhatsAppButtonProps) {
-  const url = getWhatsAppUrl(SITE_CONFIG.whatsapp, message);
+  const siteConfig = useSiteConfig();
+  const url = getWhatsAppUrl(siteConfig.whatsapp, message);
 
   return (
     <a
