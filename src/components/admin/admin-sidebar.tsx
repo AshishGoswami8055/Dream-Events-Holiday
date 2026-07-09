@@ -15,6 +15,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/shared/logo";
 import { adminLogout } from "@/actions/inquiry.actions";
+import { AdminSidebarNotificationBadge } from "@/components/admin/admin-notifications";
 
 const adminLinks = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
@@ -77,7 +78,10 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
               >
                 <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
                 {label}
-                {active && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-white" />}
+                {href === "/admin/inquiries" ? <AdminSidebarNotificationBadge /> : null}
+                {active && href !== "/admin/inquiries" && (
+                  <span className="ml-auto h-1.5 w-1.5 rounded-full bg-white" />
+                )}
               </Link>
             );
           })}

@@ -9,7 +9,7 @@ import { packageSchema, destinationSchema, gallerySchema, inquiryStatusSchema } 
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { slugify, sanitizeInput } from "@/lib/utils";
-import { sendInquiryNotification, sendInquiryConfirmation } from "@/lib/email";
+import { sendAdminQueryNotification, sendCustomerAcknowledgement } from "@/lib/email";
 import { deleteImage } from "@/lib/cloudinary";
 import type { ActionResponse, PackageFilters, PaginatedResult } from "@/types";
 import { ITEMS_PER_PAGE } from "@/constants";
@@ -376,6 +376,7 @@ export async function updateInquiryStatus(id: string, status: string): Promise<A
     const inquiry = await Inquiry.findByIdAndUpdate(id, { status }, { new: true });
     if (!inquiry) return { success: false, message: "Inquiry not found" };
 
+    revalidatePath("/admin");
     revalidatePath("/admin/inquiries");
     return { success: true, message: "Status updated" };
   } catch (error) {
@@ -388,6 +389,7 @@ export async function deleteInquiry(id: string): Promise<ActionResponse> {
     await requireAuth();
     await connectDB();
     await Inquiry.findByIdAndDelete(id);
+    revalidatePath("/admin");
     revalidatePath("/admin/inquiries");
     return { success: true, message: "Inquiry deleted" };
   } catch (error) {
@@ -452,16 +454,27 @@ export async function createInquiryFromAdmin(data: {
     }
 
     try {
-      await sendInquiryNotification({
-        ...data,
+      await sendAdminQueryNotification({
+        source: "package",
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        message: data.message,
+        adults: data.adults,
+        children: data.children,
         travelDate: data.travelDate,
         packageTitle,
       });
-      await sendInquiryConfirmation({ name: data.name, email: data.email });
+      await sendCustomerAcknowledgement({
+        name: data.name,
+        email: data.email,
+        source: "package",
+      });
     } catch {
       // Email failure shouldn't block inquiry creation
     }
 
+    revalidatePath("/admin");
     revalidatePath("/admin/inquiries");
     return { success: true, message: "Inquiry submitted successfully", data: serialize(inquiry) };
   } catch (error) {

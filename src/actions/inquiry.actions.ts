@@ -5,11 +5,48 @@ import Inquiry from "@/models/Inquiry";
 import Package from "@/models/Package";
 import { inquirySchema, contactSchema, newsletterSchema } from "@/lib/validations";
 import { sanitizeInput } from "@/lib/utils";
-import { sendInquiryNotification, sendInquiryConfirmation, sendNewsletterConfirmation } from "@/lib/email";
+import {
+  sendAdminQueryNotification,
+  sendCustomerAcknowledgement,
+  sendNewsletterConfirmation,
+} from "@/lib/email";
 import { rateLimit, getClientIdentifier } from "@/lib/rate-limit";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import type { ActionResponse } from "@/types";
+
+async function notifyAdminAndCustomer(options: {
+  source: "package" | "contact";
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+  adults?: number;
+  children?: number;
+  travelDate?: string;
+  packageTitle?: string;
+  subject?: string;
+}) {
+  await Promise.allSettled([
+    sendAdminQueryNotification({
+      source: options.source,
+      name: options.name,
+      email: options.email,
+      phone: options.phone,
+      message: options.message,
+      adults: options.adults,
+      children: options.children,
+      travelDate: options.travelDate,
+      packageTitle: options.packageTitle,
+      subject: options.subject,
+    }),
+    sendCustomerAcknowledgement({
+      name: options.name,
+      email: options.email,
+      source: options.source,
+    }),
+  ]);
+}
 
 export async function submitInquiry(formData: FormData): Promise<ActionResponse> {
   const headersList = await headers();
@@ -51,6 +88,8 @@ export async function submitInquiry(formData: FormData): Promise<ActionResponse>
       travelDate: new Date(parsed.data.travelDate),
       package: parsed.data.package || undefined,
       message: sanitizeInput(parsed.data.message),
+      source: "package",
+      status: "new",
     });
 
     let packageTitle: string | undefined;
@@ -59,16 +98,19 @@ export async function submitInquiry(formData: FormData): Promise<ActionResponse>
       packageTitle = pkg?.title;
     }
 
-    try {
-      await sendInquiryNotification({
-        ...parsed.data,
-        packageTitle,
-      });
-      await sendInquiryConfirmation({ name: parsed.data.name, email: parsed.data.email });
-    } catch {
-      // Non-blocking email errors
-    }
+    await notifyAdminAndCustomer({
+      source: "package",
+      name: parsed.data.name,
+      email: parsed.data.email,
+      phone: parsed.data.phone,
+      message: parsed.data.message,
+      adults: parsed.data.adults,
+      children: parsed.data.children,
+      travelDate: parsed.data.travelDate,
+      packageTitle,
+    });
 
+    revalidatePath("/admin");
     revalidatePath("/admin/inquiries");
     return { success: true, message: "Thank you! We will contact you within 24 hours." };
   } catch (error) {
@@ -104,6 +146,8 @@ export async function submitContact(formData: FormData): Promise<ActionResponse>
   try {
     await connectDB();
 
+    const fullMessage = `[${parsed.data.subject}] ${sanitizeInput(parsed.data.message)}`;
+
     await Inquiry.create({
       name: sanitizeInput(parsed.data.name),
       phone: sanitizeInput(parsed.data.phone),
@@ -111,24 +155,22 @@ export async function submitContact(formData: FormData): Promise<ActionResponse>
       adults: 1,
       children: 0,
       travelDate: new Date(),
-      message: `[${parsed.data.subject}] ${sanitizeInput(parsed.data.message)}`,
+      message: fullMessage,
+      source: "contact",
       status: "new",
     });
 
-    try {
-      await sendInquiryNotification({
-        name: parsed.data.name,
-        email: parsed.data.email,
-        phone: parsed.data.phone,
-        adults: 1,
-        children: 0,
-        travelDate: "Not specified",
-        message: `[${parsed.data.subject}] ${parsed.data.message}`,
-      });
-    } catch {
-      // Non-blocking
-    }
+    await notifyAdminAndCustomer({
+      source: "contact",
+      name: parsed.data.name,
+      email: parsed.data.email,
+      phone: parsed.data.phone,
+      subject: parsed.data.subject,
+      message: parsed.data.message,
+    });
 
+    revalidatePath("/admin");
+    revalidatePath("/admin/inquiries");
     return { success: true, message: "Message sent successfully! We will get back to you soon." };
   } catch (error) {
     return { success: false, message: error instanceof Error ? error.message : "Something went wrong" };

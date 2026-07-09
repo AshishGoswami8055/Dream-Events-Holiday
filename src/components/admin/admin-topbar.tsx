@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AdminNotificationsBell } from "@/components/admin/admin-notifications";
 
 const pageTitles: Record<string, string> = {
   "/admin": "Dashboard",
@@ -47,12 +48,15 @@ export function AdminTopbar({ onMenuClick }: AdminTopbarProps) {
         </div>
       </div>
 
-      <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
-        <Link href="/" target="_blank">
-          <ExternalLink className="h-4 w-4" aria-hidden="true" />
-          View Website
-        </Link>
-      </Button>
+      <div className="flex items-center gap-2">
+        <AdminNotificationsBell />
+        <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
+          <Link href="/" target="_blank">
+            <ExternalLink className="h-4 w-4" aria-hidden="true" />
+            View Website
+          </Link>
+        </Button>
+      </div>
     </header>
   );
 }

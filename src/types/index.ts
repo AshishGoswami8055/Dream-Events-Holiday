@@ -75,6 +75,7 @@ export interface InquiryDocument {
   travelDate: string;
   package?: string | PackageDocument;
   message: string;
+  source?: "package" | "contact";
   status: InquiryStatus;
   createdAt: string;
   updatedAt: string;

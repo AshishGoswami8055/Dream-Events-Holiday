@@ -47,6 +47,7 @@ export function InquiriesAdmin({ inquiries }: InquiriesAdminProps) {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40 text-left">
+                <th className="px-4 py-3 font-medium text-muted-foreground">Type</th>
                 <th className="px-4 py-3 font-medium text-muted-foreground">Contact</th>
                 <th className="px-4 py-3 font-medium text-muted-foreground">Travel Details</th>
                 <th className="px-4 py-3 font-medium text-muted-foreground">Package</th>
@@ -58,6 +59,15 @@ export function InquiriesAdmin({ inquiries }: InquiriesAdminProps) {
             <tbody>
               {inquiries.map((inquiry) => (
                 <tr key={inquiry._id} className="border-b last:border-0 hover:bg-muted/20">
+                  <td className="px-4 py-4">
+                    <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${
+                      inquiry.source === "contact"
+                        ? "bg-blue-100 text-blue-700"
+                        : "bg-purple-100 text-purple-700"
+                    }`}>
+                      {inquiry.source === "contact" ? "Contact" : "Package"}
+                    </span>
+                  </td>
                   <td className="px-4 py-4">
                     <p className="font-medium">{inquiry.name}</p>
                     <p className="text-muted-foreground">{inquiry.email}</p>

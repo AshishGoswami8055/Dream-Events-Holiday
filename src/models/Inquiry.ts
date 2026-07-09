@@ -10,6 +10,7 @@ export interface IInquiry extends Document {
   travelDate: Date;
   package?: mongoose.Types.ObjectId;
   message: string;
+  source: "package" | "contact";
   status: string;
   createdAt: Date;
   updatedAt: Date;
@@ -25,6 +26,7 @@ const InquirySchema = new Schema<IInquiry>(
     travelDate: { type: Date, required: true },
     package: { type: Schema.Types.ObjectId, ref: "Package" },
     message: { type: String, default: "", trim: true },
+    source: { type: String, enum: ["package", "contact"], default: "package" },
     status: { type: String, enum: INQUIRY_STATUSES, default: "new" },
   },
   { timestamps: true }
