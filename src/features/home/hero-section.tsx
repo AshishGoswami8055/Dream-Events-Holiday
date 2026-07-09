@@ -30,7 +30,7 @@ export function HeroSection({ destinations }: HeroSectionProps) {
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
       </div>
 
-      <div className="container-custom relative z-10 pt-32 pb-24">
+      <div className="container-custom relative z-10 pt-44 pb-24 md:pt-52">
         <div className="max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -52,11 +52,11 @@ export function HeroSection({ destinations }: HeroSectionProps) {
             </h1>
 
             <p className="mb-3 text-2xl font-semibold tracking-tight text-white md:text-3xl">
-              Your Journey Begins With Us
+              We Care for Your Memories & Comfort
             </p>
 
             <p className="mb-4 text-lg font-medium tracking-wide text-white/90 md:text-xl">
-              {SITE_CONFIG.tagline}
+              Explore. Experience. Remember.
             </p>
 
             <p className="mb-10 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">

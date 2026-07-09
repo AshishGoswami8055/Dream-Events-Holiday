@@ -2,7 +2,7 @@ import { getSiteUrl } from "@/lib/site-url";
 
 export const SITE_CONFIG = {
   name: "Dream Event & Holidays",
-  tagline: "Explore. Experience. Remember.",
+  tagline: "We Care for Your Memories & Comfort",
   description:
     "Discover exceptional travel experiences across India and the world with thoughtfully crafted holidays. From romantic honeymoons and family vacations to corporate retreats and customized tours, every journey is designed with care, comfort, and attention to detail.",
   url: getSiteUrl(),

@@ -25,10 +25,10 @@ export function Logo({
     <Image
       src={isLight ? "/logo-black.png" : "/logo-transparent.png"}
       alt={SITE_CONFIG.name}
-      width={Math.round(height * 0.72)}
+      width={Math.round(height * 1.05)}
       height={height}
       className="h-auto w-auto object-contain transition-all duration-300"
-      style={{ maxHeight: height }}
+      style={{ maxHeight: height, height }}
       priority={priority}
       unoptimized
     />

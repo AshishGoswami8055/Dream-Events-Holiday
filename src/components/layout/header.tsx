@@ -40,14 +40,14 @@ export function Header() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-        isScrolled ? "glass-nav py-3 shadow-md" : "bg-transparent py-4"
+        isScrolled ? "glass-nav py-3 shadow-md" : "bg-transparent py-5"
       )}
     >
       <div className="container-custom flex items-center justify-between">
         <Logo
           href="/"
           variant={isTransparent ? "dark" : "light"}
-          height={isScrolled ? 52 : 68}
+          height={isScrolled ? 110 : 150}
           priority
         />
 
