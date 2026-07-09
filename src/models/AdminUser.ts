@@ -5,6 +5,8 @@ export interface IAdminUser extends Document {
   email: string;
   password: string;
   role: "admin" | "superadmin";
+  resetToken?: string;
+  resetTokenExpiry?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -15,6 +17,8 @@ const AdminUserSchema = new Schema<IAdminUser>(
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: { type: String, required: true, select: false },
     role: { type: String, enum: ["admin", "superadmin"], default: "admin" },
+    resetToken: { type: String, select: false },
+    resetTokenExpiry: { type: Date },
   },
   { timestamps: true }
 );

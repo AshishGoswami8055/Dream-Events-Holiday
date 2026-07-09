@@ -39,13 +39,13 @@ export function SiteSettingsForm({ initialData }: SiteSettingsFormProps) {
   };
 
   return (
-    <div className="mx-auto max-w-4xl">
+    <div className="space-y-6 pb-12">
       <AdminPageHeader
         title="Site Settings"
         description="Update contact details, email, WhatsApp, and Cloudinary — no need to edit .env files."
       />
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pb-12">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <Card className="border-0 shadow-sm">
           <CardHeader>
             <CardTitle>Business & Contact</CardTitle>

@@ -1,5 +1,12 @@
 import type { NextAuthConfig } from "next-auth";
 
+function isPublicAdminPath(pathname: string) {
+  if (pathname === "/admin/login") return true;
+  if (pathname === "/admin/forgot-password") return true;
+  if (pathname.startsWith("/admin/reset-password/")) return true;
+  return false;
+}
+
 export const authConfig = {
   providers: [],
   session: {
@@ -12,14 +19,15 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request }) {
       const isLoggedIn = !!auth?.user;
-      const isAdminRoute = request.nextUrl.pathname.startsWith("/admin");
-      const isLoginPage = request.nextUrl.pathname === "/admin/login";
+      const pathname = request.nextUrl.pathname;
+      const isAdminRoute = pathname.startsWith("/admin");
+      const isPublicPath = isPublicAdminPath(pathname);
 
-      if (isAdminRoute && !isLoginPage) {
+      if (isAdminRoute && !isPublicPath) {
         return isLoggedIn;
       }
 
-      if (isLoginPage && isLoggedIn) {
+      if ((pathname === "/admin/login" || pathname === "/admin/forgot-password") && isLoggedIn) {
         return Response.redirect(new URL("/admin", request.nextUrl));
       }
 

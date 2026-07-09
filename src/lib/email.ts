@@ -174,3 +174,76 @@ export async function sendNewsletterConfirmation(email: string): Promise<boolean
 
   return true;
 }
+
+export async function sendPasswordResetEmail(data: {
+  email: string;
+  name: string;
+  token: string;
+}): Promise<boolean> {
+  const { settings, configured } = await getMailConfig();
+  if (!configured) return false;
+
+  const resetUrl = `${settings.siteUrl.replace(/\/$/, "")}/admin/reset-password/${data.token}`;
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #0F4C81;">Reset Your Admin Password</h2>
+      <p>Hi ${escapeHtml(data.name)},</p>
+      <p>We received a request to reset your admin password for ${escapeHtml(settings.siteName)}.</p>
+      <p>Click the button below to choose a new password. This link expires in 1 hour.</p>
+      <p style="margin-top: 24px;">
+        <a href="${resetUrl}" style="display: inline-block; background: #0F4C81; color: #fff; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: 600;">
+          Reset Password
+        </a>
+      </p>
+      <p style="color: #6b7280; margin-top: 24px; font-size: 13px;">
+        If you did not request this, you can safely ignore this email. Your password will not change.
+      </p>
+      <p style="color: #9ca3af; margin-top: 16px; font-size: 12px; word-break: break-all;">
+        Or copy this link: ${resetUrl}
+      </p>
+    </div>
+  `;
+
+  await createTransporter(settings).sendMail({
+    from: settings.smtpFrom || settings.email,
+    to: data.email,
+    subject: `Reset Your Admin Password — ${settings.siteName}`,
+    html,
+  });
+
+  return true;
+}
+
+export async function sendPasswordChangedEmail(data: {
+  email: string;
+  name: string;
+}): Promise<boolean> {
+  const { settings, configured } = await getMailConfig();
+  if (!configured) return false;
+
+  const loginUrl = `${settings.siteUrl.replace(/\/$/, "")}/admin/login`;
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #0F4C81;">Password Changed</h2>
+      <p>Hi ${escapeHtml(data.name)},</p>
+      <p>Your admin password for ${escapeHtml(settings.siteName)} was changed successfully.</p>
+      <p>If you did not make this change, contact support immediately.</p>
+      <p style="margin-top: 24px;">
+        <a href="${loginUrl}" style="display: inline-block; background: #0F4C81; color: #fff; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: 600;">
+          Sign In to Admin
+        </a>
+      </p>
+    </div>
+  `;
+
+  await createTransporter(settings).sendMail({
+    from: settings.smtpFrom || settings.email,
+    to: data.email,
+    subject: `Your Admin Password Was Changed — ${settings.siteName}`,
+    html,
+  });
+
+  return true;
+}
