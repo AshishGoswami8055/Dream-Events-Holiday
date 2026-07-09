@@ -234,6 +234,20 @@ export default async function PackageDetailPage({ params }: PackageDetailPagePro
                         title={`Map of ${packageData.location}`}
                       />
                     </div>
+                    {packageData.mapEmbedUrl.includes("openstreetmap.org") && (
+                      <p className="mt-2 text-xs text-muted-foreground">
+                        ©{" "}
+                        <a
+                          href="https://www.openstreetmap.org/copyright"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="underline hover:text-foreground"
+                        >
+                          OpenStreetMap
+                        </a>{" "}
+                        contributors
+                      </p>
+                    )}
                   </section>
                 </FadeIn>
               )}

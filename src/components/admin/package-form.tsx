@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ImageUploader, MultiImageUploader } from "@/components/admin/image-uploader";
+import { MapLocationSearch } from "@/components/admin/map-location-search";
 import { PACKAGE_CATEGORIES, PACKAGE_STATUSES } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -78,6 +79,7 @@ export function PackageForm({ destinations, initialData }: PackageFormProps) {
   const coverImage = watch("coverImage");
   const images = watch("images");
   const destinationId = watch("destination");
+  const mapEmbedUrl = watch("mapEmbedUrl");
 
   const getDestinationName = (id?: string) =>
     destinations.find((d) => d._id === id)?.name;
@@ -365,11 +367,10 @@ export function PackageForm({ destinations, initialData }: PackageFormProps) {
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label>Google Maps Link</Label>
-                <Input {...register("mapEmbedUrl")} placeholder="https://www.google.com/maps/embed?..." />
-                <p className="text-xs text-muted-foreground">Optional — only if you want a map on the package page.</p>
-              </div>
+              <MapLocationSearch
+                value={mapEmbedUrl}
+                onChange={(url) => setValue("mapEmbedUrl", url, { shouldDirty: true })}
+              />
             </CardContent>
           )}
         </Card>
