@@ -75,7 +75,7 @@ export function InquiryForm({ packageId, packageTitle }: InquiryFormProps) {
         </div>
         <div className="space-y-2">
           <Label htmlFor="phone">Phone *</Label>
-          <Input id="phone" {...register("phone")} placeholder="+91 98765 43210" aria-invalid={!!errors.phone} />
+          <Input id="phone" {...register("phone")} placeholder="+91 9023612162" aria-invalid={!!errors.phone} />
           {errors.phone && <p className="text-sm text-destructive">{errors.phone.message}</p>}
         </div>
       </div>

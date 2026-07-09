@@ -1,6 +1,7 @@
 import { HeroSection } from "@/features/home/hero-section";
 import { PopularDestinations } from "@/features/home/popular-destinations";
 import { FeaturedPackages } from "@/features/home/featured-packages";
+import { ServicesSection } from "@/features/home/services-section";
 import { WhyChooseUs } from "@/features/home/why-choose-us";
 import { TravelStatistics } from "@/features/home/travel-statistics";
 import { TestimonialsSection } from "@/features/home/testimonials-section";
@@ -31,10 +32,11 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection destinations={destinationList} />
+      <TravelStatistics />
+      <ServicesSection />
       <PopularDestinations destinations={destinationList} />
       <FeaturedPackages packages={featuredPackages} />
       <WhyChooseUs />
-      <TravelStatistics />
       <TestimonialsSection limit={3} />
       <GalleryPreview items={gallery} />
       <FeaturedPackages

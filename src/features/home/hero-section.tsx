@@ -43,16 +43,26 @@ export function HeroSection({ destinations }: HeroSectionProps) {
                   <Star key={i} className="h-3.5 w-3.5 fill-white text-white" aria-hidden="true" />
                 ))}
               </div>
-              <span className="text-sm text-white/90">Trusted by 10,000+ travelers worldwide</span>
+              <span className="text-sm text-white/90">Trusted by 6,000+ happy travelers</span>
             </div>
 
-            <h1 className="mb-6 text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-6xl lg:text-7xl">
-              Discover Your Next
-              <span className="mt-2 block text-gradient">Dream Adventure</span>
+            <h1 className="mb-4 text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-6xl lg:text-7xl">
+              Dream Event
+              <span className="mt-2 block text-gradient">& Holidays</span>
             </h1>
 
-            <p className="mb-10 max-w-xl text-lg leading-relaxed text-white/80 md:text-xl">
-              {SITE_CONFIG.tagline}. Curated luxury journeys to the world&apos;s most breathtaking destinations.
+            <p className="mb-3 text-2xl font-semibold tracking-tight text-white md:text-3xl">
+              Your Journey Begins With Us
+            </p>
+
+            <p className="mb-4 text-lg font-medium tracking-wide text-white/90 md:text-xl">
+              {SITE_CONFIG.tagline}
+            </p>
+
+            <p className="mb-10 max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
+              {SITE_CONFIG.description} At Dream Event & Holidays, we manage every step of your
+              trip—from your first enquiry to your safe return home—so you can travel with confidence
+              and create memories that last a lifetime.
             </p>
 
             <div className="flex flex-wrap gap-4">
