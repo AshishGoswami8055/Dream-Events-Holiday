@@ -9,6 +9,8 @@ import { ImageGallery } from "@/components/shared/image-gallery";
 import { InquiryForm } from "@/components/shared/inquiry-form";
 import { PackageCard } from "@/components/shared/package-card";
 import { StickyBookButton } from "@/components/shared/whatsapp-button";
+import { PackageWhatsAppButton } from "@/components/shared/package-whatsapp-button";
+import { packageToWhatsAppDetails } from "@/lib/whatsapp";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -53,6 +55,8 @@ export default async function PackageDetailPage({ params }: PackageDetailPagePro
   const destinationName = typeof packageData.destination === "object"
     ? packageData.destination.name
     : "";
+
+  const whatsappDetails = packageToWhatsAppDetails(packageData);
 
   const tourJsonLd = generateTourJsonLd({
     title: packageData.title,
@@ -278,12 +282,26 @@ export default async function PackageDetailPage({ params }: PackageDetailPagePro
                         <span className="font-medium">{packageData.category}</span>
                       </div>
                     </div>
+                    <div className="mt-5">
+                      <PackageWhatsAppButton
+                        details={whatsappDetails}
+                        label="Inquire on WhatsApp"
+                        variant="default"
+                        className="w-full"
+                      />
+                      <p className="mt-2 text-center text-xs text-muted-foreground">
+                        All package details will be sent automatically — no form needed.
+                      </p>
+                    </div>
                   </CardContent>
                 </Card>
 
                 <Card id="inquiry">
                   <CardHeader>
                     <CardTitle>Send Inquiry</CardTitle>
+                    <p className="text-sm text-muted-foreground">
+                      Prefer the website form? Fill in your details below.
+                    </p>
                   </CardHeader>
                   <CardContent>
                     <InquiryForm packageId={packageData._id} packageTitle={packageData.title} />
@@ -310,6 +328,7 @@ export default async function PackageDetailPage({ params }: PackageDetailPagePro
         packageTitle={packageData.title}
         price={packageData.price}
         slug={packageData.slug}
+        whatsappDetails={whatsappDetails}
       />
     </>
   );

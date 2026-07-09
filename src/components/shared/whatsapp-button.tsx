@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 import { SITE_CONFIG } from "@/constants";
-import { getWhatsAppUrl } from "@/lib/utils";
+import { formatPrice, getWhatsAppUrl } from "@/lib/utils";
+import { PackageWhatsAppButton, type PackageWhatsAppDetails } from "@/components/shared/package-whatsapp-button";
 
 interface WhatsAppButtonProps {
   message?: string;
@@ -31,24 +32,30 @@ interface StickyBookButtonProps {
   packageTitle: string;
   price: number;
   slug: string;
+  whatsappDetails: PackageWhatsAppDetails;
 }
 
-export function StickyBookButton({ packageTitle, slug }: StickyBookButtonProps) {
+export function StickyBookButton({ packageTitle, price, whatsappDetails }: StickyBookButtonProps) {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 border-t bg-background/95 backdrop-blur-md p-4 md:hidden">
-      <div className="container-custom flex items-center justify-between gap-4">
-        <div>
-          <p className="text-sm font-medium line-clamp-1">{packageTitle}</p>
-          <Link href={`/packages/${slug}#inquiry`} className="text-xs text-primary">
-            View details
-          </Link>
+      <div className="container-custom flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <p className="truncate text-sm font-medium">{packageTitle}</p>
+          <p className="text-sm font-bold text-primary">{formatPrice(price)}</p>
         </div>
-        <Link
-          href="#inquiry"
-          className="shrink-0 rounded-lg bg-accent px-6 py-2.5 text-sm font-semibold text-accent-foreground shadow hover:bg-accent/90 transition-colors"
-        >
-          Book Now
-        </Link>
+        <div className="flex shrink-0 items-center gap-2">
+          <Link
+            href="#inquiry"
+            className="rounded-lg border px-4 py-2.5 text-sm font-medium transition-colors hover:bg-secondary"
+          >
+            Form
+          </Link>
+          <PackageWhatsAppButton
+            details={whatsappDetails}
+            label="WhatsApp"
+            variant="sticky"
+          />
+        </div>
       </div>
     </div>
   );
