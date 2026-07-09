@@ -1,7 +1,7 @@
 "use client";
 
-import { MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { WhatsAppIcon } from "@/components/shared/whatsapp-icon";
 import {
   buildPackageWhatsAppMessage,
   getPackageWhatsAppUrl,
@@ -45,7 +45,7 @@ export function PackageWhatsAppButton({
       className={cn(variantStyles[variant], className)}
       aria-label={`${label} for ${details.title} on WhatsApp`}
     >
-      <MessageCircle className={variant === "compact" ? "h-3.5 w-3.5" : "h-5 w-5"} aria-hidden="true" />
+      <WhatsAppIcon size={variant === "compact" ? 14 : 20} />
       {label}
     </a>
   );
